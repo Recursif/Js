@@ -16,13 +16,13 @@ let resolution;
 let xh = 0;
 let yh = 0;
 
-let cube = 3;
+let square;
 
 function setup() {
   var canvas = createCanvas(600, 600);
   resolution = width / cols;
   canvas.parent('sketch-holder');
-
+  square = 3 * resolution;
   grid = make2Darray(cols, rows);
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
@@ -41,6 +41,7 @@ function draw() {
       if (grid[i][j][0]) {
        fill(255);
        stroke(0);
+       strokeWeight(1);
        rect(x, y, resolution - 1, resolution - 1);
        fill(0);
        textSize(resolution * 0.75);
@@ -48,10 +49,49 @@ function draw() {
      } else {
        fill(255);
        stroke(0);
+       strokeWeight(1);
        rect(x, y, resolution - 1, resolution - 1);
      }
     }
   }
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      let x = j * square;
+      let y = i * square;
+
+      noFill();
+      stroke(0);
+      strokeWeight(4);
+      rect(x, y, square - 1, square - 1);
+
+    }
+  }
+
+
+  function check(x,y) {
+    if (checkCol(x) && checkRow(y) && checkSquare(x,y)) {
+        return 1;
+    }
+    return 0;
+  }
+
+  function checkCol(x) {
+    let col;
+    col = [0,0,0,0,0,0,0,0,0]
+    for (let i = 0; i < cols; i++) {
+      col[i] = grid[x][i][0];
+    }
+
+    col = col.sort(function (a, b) {
+      return a - b;
+    });
+    if (col == [1,2,3,4,5,6,7,8,9]) {
+      return 1;
+    }
+    return 0;
+  }
+
+
 
 
   if (grid[yh][xh][1] == 'h') {
