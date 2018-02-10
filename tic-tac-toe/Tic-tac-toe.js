@@ -74,6 +74,18 @@ function draw() {
   }
 }
 
+function newGrid() {
+  for (let i = 0; i < cols; i++) {
+    for (let j = 0; j < rows; j++) {
+      grid[i][j] = 0;
+    }
+  }
+}
+function check() {
+  checkRow();
+  checkDiags();
+  checkCol();
+}
 
 function checkWin(sum) {
   if (sum == 12) {
@@ -86,13 +98,7 @@ function checkWin(sum) {
   }
 }
 
-function check() {
-  checkRow();
-  checkDiags();
-  checkCol();
-}
-
-function checkRow() {
+function checkRows() {
   let sum;
   for (let i = 0; i < cols; i++) {
     sum = 0;
@@ -103,7 +109,7 @@ function checkRow() {
   }
 }
 
-function checkCol() {
+function checkCols() {
   let sum;
   for (let i = 0; i < cols; i++) {
     sum = 0;
@@ -127,7 +133,6 @@ function checkDiags() {
   }
   checkWin(sum);
 }
-
 
 function mousePressed() {
   let x = floor(mouseX / resolution);
