@@ -1,8 +1,8 @@
 
 function make2Darray(cols, rows) {
-  let arr = new Array(cols);
+  let arr = new Array(rows);
   for (let i = 0; i < arr.length; i++) {
-    arr[i] = new Array(rows);
+    arr[i] = new Array(cols);
   }
   return arr;
 }
@@ -33,21 +33,21 @@ function setup() {
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       if ((i + j) % 2 == 1 && i < 3) {
-        grid[i][j] = 1;
+        grid[i][j] = [1, 'n'];
       } else if ((i + j) % 2 == 1 && i > rows - 4) {
-        grid[i][j] = 2;
+        grid[i][j] = [2, 'n'];
       } else {
-        grid[i][j] = 0;
+        grid[i][j] = [0, 'n'];
       }
     }
   }
 }
 
 function draw() {
-  background(255);
 
   //Draw Grid
   for (let i = 0; i < cols; i++) {
+    background(255);
     for (let j = 0; j < rows; j++) {
       let x = j * resolution;
       let y = i * resolution;
@@ -99,9 +99,9 @@ function draw() {
 }
 
 function newGrid() {
-  for (let i = 0; i < cols; i++) {
-    for (let j = 0; j < rows; j++) {
-      grid[i][j] = 0;
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      grid[i][j] = [];
     }
   }
 }
