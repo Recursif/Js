@@ -7,12 +7,23 @@ function make2Darray(cols, rows) {
   return arr;
 }
 
-
 let color = 0;
 let grid;
+var graph;
 let cols = 3;
 let rows = 3;
 let resolution;
+
+function mapToGrid(n) {
+  let x = n % cols + 2;
+  let y = (n - 1) / cols;
+  return [x,y];
+}
+
+function mapToNumber(coord) {
+  let n = arr[0] + arr[1] * cols + 1;
+  return n;
+}
 
 let win = 0;
 let winner;
@@ -26,6 +37,11 @@ function setup() {
   resolution = width / cols;
   canvas.parent('sketch-holder');
 
+  //Create the graph of possibilities
+  graph = new Graph;
+  graph.init();
+  console.log(graph);
+
   grid = make2Darray(cols, rows);
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
@@ -37,11 +53,13 @@ function setup() {
 function draw() {
   background(255);
 
+  //Draw Grid
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
       let x = j * resolution;
       let y = i * resolution;
       if (grid[i][j] == 1) {
+       //Draw Cross
        fill(255);
        stroke(0);
        strokeWeight(4);
@@ -49,12 +67,14 @@ function draw() {
        line(x + 2, y + 2, x + resolution - 2, y + resolution - 2);
        line(x + 2, y + resolution - 2, x + resolution - 2, y + 2);
      } else if (grid[i][j] == 4) {
+       //Draw Circle
        fill(255);
        stroke(0);
        strokeWeight(4);
        rect(x, y, resolution - 1, resolution - 1);
        ellipse(x + resolution / 2, y + resolution / 2, resolution - 6, resolution - 6);
      } else {
+       //Draw Empty Case
        fill(255);
        stroke(0);
        strokeWeight(4);
@@ -82,9 +102,9 @@ function newGrid() {
   }
 }
 function check() {
-  checkRow();
+  checkRows();
   checkDiags();
-  checkCol();
+  checkCols();
 }
 
 function checkWin(sum) {
