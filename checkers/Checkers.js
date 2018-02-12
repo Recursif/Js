@@ -74,11 +74,14 @@ function draw() {
        //Draw black pawn
        drawPawn(x, y,(68, 59, 55));
      } else if (grid[i][j] == 2) {
-       //Draw beige cell
+       //Draw white pawn
        drawPawn(x, y, 255);
      }
     }
   }
+
+
+  //Draw frame
   noFill();
   stroke(0);
   strokeWeight(3);
@@ -116,11 +119,9 @@ function drawPawn(x, y, color) {
   ellipse(x + resolution / 2, y + resolution / 2, resolution * 0.8, resolution * 0.8);
   ellipse(x + resolution / 2, y + resolution / 2, resolution * 0.7, resolution * 0.7);
   ellipse(x + resolution / 2, y + resolution / 2, resolution * 0.6, resolution * 0.6);
+
   ellipse(x + resolution / 2, y + resolution / 2, 4, 4);
-
   ellipse(x + resolution / 2, y + resolution / 2, 1, 1);
-
-
 }
 
 if (grid[yh][xh][1] == 'h') {
