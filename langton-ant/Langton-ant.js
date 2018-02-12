@@ -8,11 +8,10 @@ function make2Darray(cols, rows) {
   return arr;
 }
 
-let color = 0;
 let grid;
 let cols;
 let rows;
-let resolution = 20;
+let resolution = 10;
 
 let xa;
 let ya;
@@ -20,7 +19,7 @@ let stop = 0;
 
 function setup() {
   background(255);
-  var canvas = createCanvas(600, 300);
+  var canvas = createCanvas(900, 900);
   cols = floor(width / resolution);
   rows = floor(height / resolution);
   canvas.parent('sketch-holder');
@@ -34,6 +33,7 @@ function setup() {
   }
   xa = floor(cols / 2);
   ya = floor(rows / 2);
+  console.log([xa,ya]);
   dir = 0;
   console.log(grid);
 }
@@ -41,24 +41,26 @@ function setup() {
 function draw() {
 
   // Draw track
-  console.log([xa,ya]);
-  if (stop == 0) {
-    if (grid[ya][xa] == 1) {
-      dir = (dir + 1 + 4) % 4;
-      grid[ya][xa] = 0;
-      drawTrack(255, ya, xa);
-    } else {
-      dir = (dir - 1 + 4) % 4;
-      grid[ya][xa] = 1;
-      drawTrack(0, ya, xa);
-    }
-    move(dir);
+  if (grid[ya][xa] == 1) {
+    dir = (dir + 1 + 4) % 4;
+    grid[ya][xa] = 0;
+    drawTrack(255, xa, ya);
+  } else {
+    dir = (dir - 1 + 4) % 4;
+    grid[ya][xa] = 1;
+    drawTrack(0, xa, ya);
   }
+  move(dir);
 }
 
 function keyPressed() {
   if (keyCode === CONTROL) {
    stop = (stop == 1) ?  0 : 1;
+   if (stop == 1) {
+     noLoop();
+   } else {
+     loop();
+   }
  } /* else if (keyCode === RIGHT_ARROW) {
    dir = 0
  } else if (keyCode == D0WN_ARROW) {
@@ -97,8 +99,8 @@ function move(dir) {
   } else if (dir == 1) {
     ya = (ya - 1 + rows) % rows;
   } else if (dir == 2) {
-    xa = (xa - 1 + rows) % rows;
+    xa = (xa - 1 + cols) % cols;
   } else if (dir == 3) {
-    ya = (ya + 1 + cols) % cols;
+    ya = (ya + 1 + rows) % rows;
   }
 }
