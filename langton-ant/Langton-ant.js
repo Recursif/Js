@@ -18,24 +18,24 @@ let ya;
 let stop = 0;
 
 function setup() {
-  background(255);
   var canvas = createCanvas(900, 900);
+  canvas.parent('sketch-holder');
+
   cols = floor(width / resolution);
   rows = floor(height / resolution);
-  canvas.parent('sketch-holder');
-  console.log([cols,rows]);
+
+  background(255);
+
   grid = make2Darray(cols, rows);
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       grid[i][j] = 0;
-      drawTrack(255, j, i);
+      drawCell(j, i, 255);
     }
   }
   xa = floor(cols / 2);
   ya = floor(rows / 2);
-  console.log([xa,ya]);
   dir = 0;
-  console.log(grid);
 }
 
 function draw() {
@@ -44,11 +44,11 @@ function draw() {
   if (grid[ya][xa] == 1) {
     dir = (dir + 1 + 4) % 4;
     grid[ya][xa] = 0;
-    drawTrack(255, xa, ya);
+    drawCell(xa, ya, 255);
   } else {
     dir = (dir - 1 + 4) % 4;
     grid[ya][xa] = 1;
-    drawTrack(0, xa, ya);
+    drawCell(xa, ya, 0);
   }
   move(dir);
 }
@@ -73,13 +73,7 @@ function keyPressed() {
 }
 
 
-function drawTrack(color, xi , yi) {
-  let x = xi * resolution;
-  let y = yi * resolution;
-  fill(color);
-  stroke(0);
-  rect(x, y, resolution - 1, resolution - 1);
-}
+
 
 function polygon(x, y, radius, npoints) {
   var angle = TWO_PI / npoints;
