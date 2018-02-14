@@ -52,16 +52,14 @@ function setup() {
 
 function draw() {
   eraseTetriminos(Tetris, xt, yt);
-  end = checkEnd();
-  if (end == 1) {
-    drawTetriminos(Tetris, xt, yt, 0);
+  if (checkEnd() == 1) {
     fillit(Tetris, xt, yt);
     Tetris = choiceTetriminos();
     yt = 0;
     xt = floor(cols / 2);
   } else {
-    drawTetriminos(Tetris, xt, yt, 0);
     yt++;
+    drawTetriminos(Tetris, xt, yt, 0);
   }
 }
 
@@ -91,6 +89,7 @@ function fillit(Tetris, xi, yi) {
   for (let y = 0; y < Tetris.length ; y++) {
     for (let x = 0; x < Tetris[0].length; x++) {
       if (Tetris[y][x] == 1) {
+        drawCell(xi + x, yi + y - 1, color);
         grid[yi - y][xi + x] = 1;
       } else {
         grid[yi - y][xi + x] = 0;
@@ -112,9 +111,11 @@ function drawTetriminos(Tetris, xi, yi, color) {
 }
 
 function eraseTetriminos(Tetris, xi, yi) {
-  for (let y = -1; y < Tetris.length ; y++) {
-    for (let x = -1; x <= Tetris[0].length + 1; x++) {
-      drawCell(x + xi, y + yi, 255);
+  for (let y = 0; y < Tetris.length ; y++) {
+    for (let x = 0; x < Tetris[0].length; x++) {
+      if (Tetris[y][x] == 1 ) {
+        drawCell(x + xi, y + yi, 255);
+      }
     }
   }
 }
@@ -142,11 +143,15 @@ function keyPressed() {
    }
  } else if (keyCode == RIGHT_ARROW) {
    if (xt < cols - Tetris[0].length) {
+     eraseTetriminos(Tetris, xt, yt);
      xt++;
+     drawTetriminos(Tetris, xt, yt, 0);
    }
  } else if (keyCode == LEFT_ARROW) {
    if (xt > 0) {
+     eraseTetriminos(Tetris, xt, yt);
      xt--;
+     drawTetriminos(Tetris, xt, yt, 0);
    }
  }
 }
