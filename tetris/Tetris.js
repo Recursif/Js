@@ -19,7 +19,7 @@ let Sn = [[0,1,1],
 let Cn = [[1,1],
           [1,1]];
 
-let Tetriminos = [In,Ln,Li,Tn,Zn,Sn,Cn];
+let losTetriminos = [In,Ln,Li,Tn,Zn,Sn,Cn];
 let stop = 0;
 let resolution = 20;
 let cols = 10;
@@ -27,7 +27,7 @@ let rows = 22;
 
 let dir;
 let score = 0;
-let Tetris;
+let Tetriminos;
 let end;
 
 function setup() {
@@ -44,27 +44,49 @@ function setup() {
   dir = 0;
   yt = 0;
   xt = floor(cols / 2);
-  Tetris = choiceTetriminos();
-  console.log(Tetris);
+  Tetriminos = choiceTetriminos();
+  console.log(Tetriminos);
   console.log(grid);
   console.log(xt,yt);
 }
 
 function draw() {
-  eraseTetriminos(Tetris, xt, yt);
+  //Erase last tetriminos
+  eraseTetriminos(Tetriminos, xt, yt);
+  //Check if the tetriminos can't go down anymore
   if (checkEnd() == 1) {
-    fillit(Tetris, xt, yt);
-    Tetris = choiceTetriminos();
-    yt = 0;
+    //If not block is position on the grid
+    fillit(Tetriminos, xt, yt);
+    //Check line
+    //checkLine()
+    //Pick a new tetriminos
+    Tetriminos = choiceTetriminos();
+    //Initialize his position
+    yt = 1;
     xt = floor(cols / 2);
   } else {
+    //Move the tetriminos down
     yt++;
-    drawTetriminos(Tetris, xt, yt, 0);
+    drawTetriminos(Tetriminos, xt, yt, 0);
   }
 }
 
+function rotate() {
+  let newTetriminos;
+  newTetriminos = make2Darray(Teriminos.length, Teriminos[0].length);
+  for (let i = 0; i < Teriminos[0].length; i++) {
+    for (let j = 0; j < Teriminos.length; j++) {
+      newTetriminos[i][j] = Tetriminos[j][i];
+    }
+  }
+  return newTetriminos;
+}
+
+
 function make2Darray(cols, rows) {
+  //Make a first array of size rows
   let arr = new Array(rows);
+  //Make arrays of size cols for each rows
   for (let i = 0; i < arr.length; i++) {
     arr[i] = new Array(cols);
   }
@@ -72,24 +94,27 @@ function make2Darray(cols, rows) {
 }
 
 function checkEnd() {
+  //Check if the tetriminos arrive to the end
   if (yt == rows - 1) {
     return 1;
   }
-  let sum = 0;
-  for (let i = 0; i < Tetris[0].length; i++) {
-    sum += grid[yt + 1][xt + i];
+  //Check if the tetriminos touch an obstacle
+  for (let y = 0; y < Tetriminos.length; y++) {
+    for (let x = 0; x < Tetriminos[0].length; x++) {
+      if (Tetriminos[y][x]  + grid[yt + y + 2 - Tetriminos.length][xt + x] == 2) {
+        return 1;
+      }
+    }
   }
-  if (sum == 0) {
-    return 0;
-  }
-  return 1;
+  return 0;
 }
 
-function fillit(Tetris, xi, yi) {
-  for (let y = 0; y < Tetris.length ; y++) {
-    for (let x = 0; x < Tetris[0].length; x++) {
-      if (Tetris[y][x] == 1) {
-        drawCell(xi + x, yi + y - 1, color);
+function fillit(Tetriminos, xi, yi) {
+  //Fill the grid with the tetriminos
+  for (let y = 0; y < Tetriminos.length ; y++) {
+    for (let x = 0; x < Tetriminos[0].length; x++) {
+      if (Tetriminos[y][x] == 1) {
+        drawCell(xi + x, yi + y - Tetriminos.length, 0);
         grid[yi - y][xi + x] = 1;
       } else {
         grid[yi - y][xi + x] = 0;
@@ -98,29 +123,32 @@ function fillit(Tetris, xi, yi) {
   }
 }
 
-function drawTetriminos(Tetris, xi, yi, color) {
-  for (let y = 0; y < Tetris.length ; y++) {
-    for (let x = 0; x < Tetris[0].length; x++) {
-      if (Tetris[y][x] == 1) {
-        drawCell(x + xi, y + yi, color);
+function drawTetriminos(Tetriminos, xi, yi, color) {
+  //
+  for (let y = 0; y < Tetriminos.length ; y++) {
+    for (let x = 0; x < Tetriminos[0].length; x++) {
+      if (Tetriminos[y][x] == 1) {
+        drawCell(xi + x, yi + y - Tetriminos.length, color);
       } else {
-        drawCell(x + xi, y + yi, 255);
+        drawCell(xi + x, yi + y - Tetriminos.length, 255);
       }
     }
   }
 }
 
-function eraseTetriminos(Tetris, xi, yi) {
-  for (let y = 0; y < Tetris.length ; y++) {
-    for (let x = 0; x < Tetris[0].length; x++) {
-      if (Tetris[y][x] == 1 ) {
-        drawCell(x + xi, y + yi, 255);
+function eraseTetriminos(Tetriminos, xi, yi) {
+  //Erase the tetriminos at position xi, yi
+  for (let y = 0; y < Tetriminos.length ; y++) {
+    for (let x = 0; x < Tetriminos[0].length; x++) {
+      if (Tetriminos[y][x] == 1 ) {
+        drawCell(xi + x, yi + y - Tetriminos.length, 255);
       }
     }
   }
 }
 
 function drawCell(xi, yi, color) {
+  //Draw a cell at position xi, yi
   let x = xi * resolution;
   let y = yi * resolution;
   fill(color);
@@ -129,12 +157,14 @@ function drawCell(xi, yi, color) {
 }
 
 function choiceTetriminos() {
+  //Choice a tetriminos randomly
   let rand = floor(random(6));
-  return (Tetriminos[rand]);
+  return (losTetriminos[rand]);
 }
 
 function keyPressed() {
   if (keyCode == CONTROL) {
+    //Stop if control key is pressed
    stop = (stop == 1) ?  0 : 1;
    if (stop == 1) {
      noLoop();
@@ -142,16 +172,28 @@ function keyPressed() {
      loop();
    }
  } else if (keyCode == RIGHT_ARROW) {
-   if (xt < cols - Tetris[0].length) {
-     eraseTetriminos(Tetris, xt, yt);
+   //Move the tetriminos to the rigth when the right arrow is pressed
+   if (xt < cols - Tetriminos[0].length) {
+     eraseTetriminos(Tetriminos, xt, yt);
      xt++;
-     drawTetriminos(Tetris, xt, yt, 0);
+     drawTetriminos(Tetriminos, xt, yt, 0);
    }
  } else if (keyCode == LEFT_ARROW) {
+   //Move the tetriminos to the left when the left arrow is pressed
    if (xt > 0) {
-     eraseTetriminos(Tetris, xt, yt);
+     eraseTetriminos(Tetriminos, xt, yt);
      xt--;
-     drawTetriminos(Tetris, xt, yt, 0);
+     drawTetriminos(Tetriminos, xt, yt, 0);
    }
+ } else if (keyCode == DOWN_ARROW) {
+   //Move down the tetriminos when the down arrow is pressed
+   if (xt > 0) {
+     eraseTetriminos(Tetriminos, xt, yt);
+     yt++;
+     drawTetriminos(Tetriminos, xt, yt, 0);
+   }
+ } else if (keyCode == UP_ARROW) {
+   //Rotate the tetriminos when the up arrow is pressed
+   Tetriminos =   rotate();
  }
 }
