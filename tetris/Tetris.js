@@ -74,8 +74,8 @@ function draw() {
 function rotate() {
   let newTetriminos;
   newTetriminos = make2Darray(Teriminos.length, Teriminos[0].length);
-  for (let i = 0; i < Teriminos[0].length; i++) {
-    for (let j = 0; j < Teriminos.length; j++) {
+  for (let i = 0; i < newTeriminos.length; i++) {
+    for (let j = 0; j < newTeriminos[0].length; j++) {
       newTetriminos[i][j] = Tetriminos[j][i];
     }
   }
@@ -194,6 +194,6 @@ function keyPressed() {
    }
  } else if (keyCode == UP_ARROW) {
    //Rotate the tetriminos when the up arrow is pressed
-   Tetriminos =   rotate();
+   Tetriminos = rotate();
  }
 }
