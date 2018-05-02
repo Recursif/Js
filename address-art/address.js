@@ -1,7 +1,7 @@
 var x = "0xcD1195E94b293Da440a732F4361D451d3B439862";
 
 
-function setup() {
+function setup() {  
   var canvas = createCanvas(400, 400);
   canvas.parent('sketch-holder');
   background('#0c1f3c');
