@@ -19,16 +19,22 @@ let Sn = [[0,1,1],
 let Cn = [[1,1],
           [1,1]];
 
-let losTetriminos = [In,Ln,Li,Tn,Zn,Sn,Cn];
-let stop = 0;
-let resolution = 20;
-let cols = 10;
-let rows = 22;
+var losTetriminos = [In,Ln,Li,Tn,Zn,Sn,Cn];
+var stop = 0;
+var resolution = 20;
+var cols = 10;
+var rows = 22;
 
-let dir;
-let score = 0;
-let Tetriminos;
-let end;
+var dir;
+var score = 0;
+var Tetriminos;
+var end;
+
+var xt;
+var yt;
+
+var grid;
+
 
 function setup() {
   var canvas = createCanvas(cols * resolution, rows * resolution);
@@ -140,7 +146,7 @@ function eraseTetriminos(Tetriminos, xi, yi) {
   //Erase the tetriminos at position xi, yi
   for (let y = 0; y < Tetriminos.length ; y++) {
     for (let x = 0; x < Tetriminos[0].length; x++) {
-      if (Tetriminos[y][x] == 1 ) {
+      if (Tetriminos[y][x] == 1) {
         drawCell(xi + x, yi + y - Tetriminos.length, 255);
       }
     }
