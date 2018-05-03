@@ -14,7 +14,7 @@ function setup() {
 
   var color = '#efefef';
   var n = 2;
-  var p = 0;
+  var p = 128;
   var binary;
   var code = x.charCodeAt(n);
   console.log(x.charAt(n));
@@ -28,19 +28,19 @@ function setup() {
         continue;
       }
       console.log(code);
-      binary = code % 2;
+      binary = Math.floor(code / p);
       color = (binary) ? '#0c1f3c' : '#efefef';
       fill(color);
       rect(i * res , j * res, i * res + res ,  j * res + res);
-      code = (code == 0) ? 0 : Math.floor(code / 2);
-      p++;
-      if (p == 8) {
+      code = (code - p < 0) ? code : code - p;
+      p = Math.floor(p / 2);
+      if (p == 0) {
         n++;
         code = x.charCodeAt(n);
 
         console.log("next");
         console.log(x.charAt(n));
-        p = 0;
+        p = 128;
       }
     }
   }
