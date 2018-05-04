@@ -1,4 +1,4 @@
-var x = "0xcD1195E94b293Da440a732F4361D451d3B439862";
+var x = "0x4e35156122E86AF010787331A2B4234B69e2fBE9";
 
 
 function corner(i, j, size) {
@@ -11,7 +11,7 @@ function setup() {
   var canvas = createCanvas(res * size, res * size);
   canvas.parent('sketch-holder');
   background('#efefef');
-
+  noStroke();
   var color = '#efefef';
   var n = 2;
   var p = 128;
