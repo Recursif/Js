@@ -1,3 +1,5 @@
+// automate cellulaire en deux dimensions
+
 
 function make2Darray(cols, rows) {
   let arr = new Array(cols);
