@@ -1,3 +1,12 @@
+/*
+Basic Blockchain
+
+with proof of work
+*/
+
+
+
+
 const SHA256 = require('crypto-js/sha256');
 
 class Block {
@@ -7,16 +16,30 @@ class Block {
     this.data = data;
     this.previousHash = previousHash;
     this.hash = this.calculateHash();
+    this.nonce = 0;
   }
 
   calculateHash() {
-    return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data)).toString();
+    return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
+  }
+
+  mineBlock(difficulty) {
+    while (this.hash.substring(0, difficulty) !==  Array(difficulty + 1).join("0")) {
+      this.nonce++;
+      this.hash = this.calculateHash();
+    }
+
+    console.log("Block mined :" + this.hash);
   }
 }
+
+
+
 
 class Blockchain {
   constructor() {
     this.chain = [this.createGenesisBlock()];
+    this.difficulty = 5;
   }
 
   createGenesisBlock() {
@@ -29,12 +52,12 @@ class Blockchain {
 
   addBlock(newBlock) {
     newBlock.previousHash = this.getLatestBlock().hash;
-    newBlock.hash = newBlock.calculateHash();
+    newBlock.mineBlock(this.difficulty);
     this.chain.push(newBlock);
   }
 
   isChainValid() {
-    for (let i = 1; i < this.chain.length; i++) {
+    for (let i = 0; i < this.chain.length; i++) {
       const currentBlock = this.chain[i];
       const previousBlock = this.chain[i - 1];
 
@@ -51,7 +74,11 @@ class Blockchain {
 }
 
 let jijicoin = new Blockchain();
+
+console.log('Mining block 1...');
 jijicoin.addBlock(new Block(1, "10/03/2018", { amount: 4}));
+
+console.log('Mining block 2...');
 jijicoin.addBlock(new Block(2, "11/03/2018", { amount: 5}));
 
 console.log(JSON.stringify(jijicoin, null, 4));
@@ -63,4 +90,7 @@ jijicoin.chain[1].data = { amount: 100 };
 jijicoin.chain[1].hash = jijicoin.chain[1].calculateHash();
 
 
-console.log('Is chain valid?' + jijicoin.isChainValid());
+console.log(JSON.stringify(jijicoin, null, 4));
+
+
+console.log('Is chain valid? ' + jijicoin.isChainValid());
