@@ -1,3 +1,5 @@
+
+  
 var x = 0;
 var y = 0;
 var cols;
@@ -46,43 +48,4 @@ function draw() {
     */
     
   }
-  
-  /*
-
-  line(x, y, x + res1, y + res);
-  
-  strokeWeight(2);
-  if (random(1) > 0.7) {
-    
-    x += res1;
-  } else {
-    line(x, y + res, x + res, y);
-    x += res;
-  }
-
-  if (x >= width) {
-    x = 0;
-    y += res;
-  }
-  if (y >= height) {
-    noLoop();
-  }*/
-
 }
-
-
-/*
-class DiskStyle() {
-  constructor(hauteur, largeur) {
-    this.hauteur = hauteur;
-    this.largeur = largeur;
-  }
-  this.numberOfDisk = 5
-
-  this.drawCircle () {
-
-  }
-
-}
-
-*/
