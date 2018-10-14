@@ -6,9 +6,13 @@ var nbOfDisk = 50
 
 var diskMaxSize = 80
 
+var w = 800;
+var h = 800;
+
+
 var DiskStyles = []
 function setup() {
-  var canvas = createCanvas(800, 800);
+  var canvas = createCanvas(w, h);
   canvas.parent('sketch-holder');
   background('#fefe77');
   cols = width / res;
@@ -18,7 +22,7 @@ function setup() {
 
   //Math.floor(random(1,2))
   for (var i = 0; i < nbOfDisk; i++) {
-    DiskStyles.push(new DiskStyle(2, Math.floor(random(800)), Math.floor(random(800)))) 
+    DiskStyles.push(new DiskStyle(Math.floor(random(1,9)), Math.floor(random(800)), Math.floor(random(800)))) 
   }
   console.log(DiskStyles)
 
@@ -33,6 +37,7 @@ function draw() {
 
   for (var i = 0; i < nbOfDisk; i++) {
     DiskStyles[i].moveDisk()
+    DiskStyles[i].updateDisk()
     DiskStyles[i].drawDisk()
   }
 
@@ -73,18 +78,24 @@ class DiskStyle {
     console.log(listCircle)
     return listCircle
   }
+
+  updateDisk () {
+    for (var i = 0; i <  this.numberOfDisk; i++) {
+      this.circles[i][0] = ( this.circles[i][0] + Math.floor(random(-1,1)) + diskMaxSize + mouseX) % (diskMaxSize + mouseY);
+    }
+  }
   moveDisk () {
 
-    let dir = Math.floor(random(0, 4))
+    let dir = Math.floor(random(0, 1000))
 
-    if (dir == 1) {
-      this.x += 2;
-    } else if (dir == 2) {
-      this.x -= 2;
-    } else if (dir == 3) {
-      this.y += 2;
-    } else if (dir == 4) {
-      this.y -= 2;
+    if (dir <= 80) {
+      this.x = (this.x + 1 + w) % w;
+    } else if (dir <= 200) {
+      this.x = (this.x - 1 + w) % w;
+    } else if (dir <= 750) {
+      this.y = (this.y + 1 + h) % h;
+    } else {
+      this.y = (this.y - 1 + h) % h;
     }
   }
 }

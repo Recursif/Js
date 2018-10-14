@@ -60,10 +60,10 @@ class Mexican {
 
     let listCircle = [];
 
-    let hatSize = Math.floor(random(0, diskMaxSize))
+    let hatSize = Math.floor(random(20, diskMaxSize))
 
     listCircle.push(hatSize)
-    listCircle.push(Math.floor(hatSize/2))
+    listCircle.push(Math.floor(hatSize/(2.4)))
 
 
     for (var i = 0; i <  this.numberOfDisk; i++) {
