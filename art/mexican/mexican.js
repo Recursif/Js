@@ -15,6 +15,7 @@ function setup() {
   rows = height /res;
 
   background(color(140,220,77));
+  frameRate(25);
 
   //Math.floor(random(1,2))
   for (var i = 0; i < nbOfDisk; i++) {
