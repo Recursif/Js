@@ -21,18 +21,8 @@ function setup() {
 
 function draw() {
   background('#112544');
-  /*
-  for (var i = -18 + step; i < 800 + step; i += 35) {
-    for (var j = 18; j < 800; j += 35) {
-      if (random(1) > 0.5) {
-        drawMotif(j, i)
-      }
-      
-    }
-  }
-  */
  for (var i = -18 + step; i < 800 + step; i += 35) {
-  for (var j = 18; j < 800; j += 35) {
+  for (var j = 18 + Math.floor(random(4)) - 1; j < 800 + Math.floor(random(4)) - 1; j += 35) {
     drawMotif(j, i)
   }
 }
